@@ -3,14 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 800,
         once: true
     })
-    fetch('/log-visit', { method: 'POST' }) // Отправляем POST запрос на наш бэкенд по новому адресу
+    fetch('/log-visit', { method: 'POST' }) 
         .then(response => {
             if (!response.ok) {
                 console.error('Сервер не смог залогировать визит. Статус:', response.status);
-            } else {
-                // Эта строка появится в консоли браузера, подтверждая отправку
-                console.log('Сервер уведомлен о визите для логирования.');
-            }
+            } 
         })
         .catch(error => {
             console.error('Ошибка при отправке сигнала логирования на сервер:', error);
