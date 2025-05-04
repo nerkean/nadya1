@@ -1,0 +1,312 @@
+:root {
+    --bg-color: #fdf6f8;
+    --primary-pink: #ffcad4;
+    --secondary-pink: #f4acb7;
+    --accent-pink: #d88c9a;
+    --text-color: #3e3b39;
+    --white-color: #ffffff;
+    --light-gray: #f8f8f8;
+    --font-main: 'Poppins', sans-serif;
+    --font-accent: 'Dancing Script', cursive;
+}
+
+#intro-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.4s ease, visibility 0s linear 0s;
+}
+
+#modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 999;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.4s ease, visibility 0s linear 0s, backdrop-filter 0.4s ease;
+}
+
+#modal-content {
+    position: relative;
+    z-index: 1001;
+    background-color: var(--white-color);
+}
+
+#modal-content h2 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+#modal-content p {
+    margin-bottom: 25px;
+    font-size: 1.1em;
+}
+
+#intro-modal.hidden,
+#modal-backdrop.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0s linear 0.4s, backdrop-filter 0.4s ease;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+#main-content {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.content-box {
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.frosted-glass {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+h2 {
+    font-family: var(--font-main);
+    font-weight: 600;
+    color: var(--accent-pink);
+    margin-bottom: 20px;
+}
+
+.font-dancing {
+    font-family: var(--font-accent);
+    font-weight: 700;
+    font-size: 2.2em;
+}
+
+p span.font-dancing {
+    font-size: 1.1em;
+}
+
+.highlight {
+    color: var(--secondary-pink);
+    font-weight: 600;
+}
+
+.icon-pink {
+    color: var(--primary-pink);
+    margin-right: 10px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#hearts-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: var(--primary-pink);
+    opacity: 0;
+    animation: floatUp 10s infinite linear;
+    transform: rotate(-45deg);
+}
+.heart::before,
+.heart::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: var(--primary-pink);
+    border-radius: 50%;
+}
+.heart::before { top: -10px; left: 0; }
+.heart::after { top: 0; left: 10px; }
+
+@keyframes floatUp {
+    0% { transform: translateY(100vh) rotate(-45deg); opacity: 0; }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.7; }
+    100% { transform: translateY(-10vh) rotate(-45deg); opacity: 0; }
+}
+
+#game-section h2 {
+    margin-bottom: 15px;
+}
+
+#game-intro {
+    padding: 20px 0;
+}
+#game-intro h2 {
+     font-size: 1.8em;
+}
+#game-intro p {
+    margin-bottom: 25px;
+    font-size: 1.1em;
+}
+
+#game-area {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 400px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px dashed var(--primary-pink);
+    margin: 15px auto;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+#catcher {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 20px;
+    background-color: var(--accent-pink);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.falling-heart {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: -35px;
+    opacity: 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f4acb7'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#score-display {
+    margin-top: 15px;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+#game-message {
+    margin-top: 10px;
+    font-weight: 600;
+    color: var(--accent-pink);
+}
+
+#envelope {
+    cursor: pointer;
+    color: var(--secondary-pink);
+    margin: 20px 0;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+#envelope:hover {
+    transform: scale(1.15);
+    color: var(--accent-pink);
+}
+
+#letter-text {
+    text-align: left;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+    white-space: pre-wrap;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    margin-top: 20px;
+    font-family: var(--font-main);
+    font-size: 1em;
+    font-weight: 600;
+    color: var(--white-color);
+    background-color: var(--primary-pink);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    background-color: var(--secondary-pink);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 600px) {
+    .content-box {
+        width: 95%;
+        padding: 20px;
+    }
+    h2 {
+        font-size: 1.5em;
+    }
+    .font-dancing {
+        font-size: 1.8em;
+    }
+    #letter-text, #reasons-list li {
+        font-size: 1em;
+    }
+    #game-area {
+        height: 350px;
+    }
+    #catcher {
+        width: 60px;
+    }
+    .falling-heart {
+        width: 28px;
+        height: 28px;
+        top: -32px;
+    }
+}
