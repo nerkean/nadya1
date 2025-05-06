@@ -10,6 +10,25 @@
     --font-accent: 'Dancing Script', cursive;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+    font-size: 16px; /* Базовый размер шрифта для rem */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    min-height: 100vh; /* Убедимся, что body занимает всю высоту */
+}
+
 #intro-modal {
     position: fixed;
     top: 0;
@@ -23,6 +42,7 @@
     visibility: visible;
     opacity: 1;
     transition: opacity 0.4s ease, visibility 0s linear 0s;
+    padding: 15px; /* Добавим немного отступов для самого модального окна */
 }
 
 #modal-backdrop {
@@ -40,19 +60,20 @@
     transition: opacity 0.4s ease, visibility 0s linear 0s, backdrop-filter 0.4s ease;
 }
 
-#modal-content {
+#modal-content { /* modal-content уже использует .content-box стили, что хорошо */
     position: relative;
     z-index: 1001;
     background-color: var(--white-color);
 }
 
 #modal-content h2 {
-    font-size: 1.8em;
-    margin-bottom: 15px;
+    font-size: clamp(1.4em, 4.5vw, 1.8em); /* Адаптивный размер */
+    margin-bottom: 1rem;
 }
+
 #modal-content p {
-    margin-bottom: 25px;
-    font-size: 1.1em;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem); /* Адаптивный размер */
+    margin-bottom: 1.5rem;
 }
 
 #intro-modal.hidden,
@@ -64,20 +85,6 @@
     -webkit-backdrop-filter: blur(0px);
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: var(--font-main);
-    color: var(--text-color);
-    background-color: var(--bg-color);
-    line-height: 1.6;
-    overflow-x: hidden;
-}
-
 #main-content {
     position: relative;
     z-index: 1;
@@ -86,40 +93,51 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: clamp(15px, 4vh, 30px) 15px; /* Адаптивные вертикальные отступы */
+    width: 100%;
 }
 
 .content-box {
     width: 90%;
     max-width: 600px;
-    margin: 20px auto;
-    padding: 30px;
+    margin: 1rem auto; /* Используем rem для вертикальных отступов */
+    padding: clamp(20px, 4vw, 30px); /* Адаптивные внутренние отступы */
     border-radius: 15px;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); /* Чуть более выраженная тень */
 }
 
 .frosted-glass {
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.70); /* Чуть менее прозрачный для лучшей читаемости */
+    backdrop-filter: blur(10px); /* Немного меньше блюра, если нужно */
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 h2 {
     font-family: var(--font-main);
     font-weight: 600;
     color: var(--accent-pink);
-    margin-bottom: 20px;
+    font-size: clamp(1.6em, 5vw, 2.1em); /* Адаптивный размер для всех h2 */
+    margin-bottom: 1rem;
+    line-height: 1.3;
 }
 
 .font-dancing {
     font-family: var(--font-accent);
     font-weight: 700;
-    font-size: 2.2em;
+    /* Осторожно с clamp для рукописных шрифтов, они могут плохо масштабироваться */
+    font-size: clamp(1.8em, 7vw, 2.6em);
+    line-height: 1.2;
+}
+
+p {
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem); /* Адаптивный размер для всех P */
+    margin-bottom: 1rem;
 }
 
 p span.font-dancing {
+    /* Размер будет относительно родительского P, что хорошо */
     font-size: 1.1em;
 }
 
@@ -130,7 +148,7 @@ p span.font-dancing {
 
 .icon-pink {
     color: var(--primary-pink);
-    margin-right: 10px;
+    margin-right: 0.5rem; /* Используем rem */
 }
 
 .hidden {
@@ -145,6 +163,7 @@ p span.font-dancing {
     height: 100%;
     overflow: hidden;
     z-index: 0;
+    pointer-events: none; /* Чтобы фон не мешал взаимодействию */
 }
 
 .heart {
@@ -175,49 +194,47 @@ p span.font-dancing {
     100% { transform: translateY(-10vh) rotate(-45deg); opacity: 0; }
 }
 
-#game-section h2 {
-    margin-bottom: 15px;
-}
+/* #game-section h2 уже стилизуется общим h2 */
 
-#game-intro {
-    padding: 20px 0;
-}
-#game-intro h2 {
-     font-size: 1.8em;
-}
-#game-intro p {
-    margin-bottom: 25px;
-    font-size: 1.1em;
-}
+/* #game-intro не используется в HTML, удаляем или добавляем если нужно */
 
 #game-area {
     position: relative;
     width: 100%;
-    max-width: 400px;
-    height: 400px;
-    background-color: rgba(255, 255, 255, 0.5);
+    max-width: 400px; /* Максимальная ширина остается */
+    /* Вариант 1: Делаем поле квадратным и адаптивным (рекомендуется) */
+    aspect-ratio: 1 / 1;
+    height: auto; /* Нужно для aspect-ratio */
+    /* Вариант 2: Если aspect-ratio не подходит, можно использовать min/max или vh/vw */
+    /* height: min(80vw, 400px); */ /* Например, высота 80% ширины вьюпорта, но не более 400px */
+    /* max-height: 70vh; */ /* Ограничение по высоте вьюпорта */
+
+    background-color: rgba(255, 255, 255, 0.55); /* Чуть плотнее фон */
     border: 1px dashed var(--primary-pink);
-    margin: 15px auto;
+    margin: 1rem auto;
     overflow: hidden;
     border-radius: 10px;
+    box-shadow: 0 0 15px rgba(216, 140, 154, 0.2); /* Мягкая тень в цвет акцента */
 }
 
 #catcher {
     position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 20px;
+    bottom: 0.625rem; /* 10px */
+    width: clamp(60px, 18vw, 80px); /* Адаптивная ширина */
+    height: clamp(18px, 4.5vw, 20px); /* Адаптивная высота */
     background-color: var(--accent-pink);
-    border-radius: 10px;
+    border-radius: 8px; /* Чуть меньше для маленьких размеров */
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Тень для кетчера */
 }
 
 .falling-heart {
     position: absolute;
-    width: 30px;
-    height: 30px;
+    width: clamp(25px, 7vw, 30px); /* Адаптивный размер */
+    height: clamp(25px, 7vw, 30px);
+    /* top должен быть отрицательным размером сердца + небольшой буфер */
+    /* Динамически не задать, но JS может это делать, если размеры сердец разные.
+       Пока оставляем как есть, т.к. SVG масштабируется внутри этого блока. */
     top: -35px;
     opacity: 1;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f4acb7'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
@@ -227,86 +244,133 @@ p span.font-dancing {
 }
 
 #score-display {
-    margin-top: 15px;
-    font-size: 1.2em;
+    margin-top: 1rem;
+    font-size: clamp(1rem, 3vw, 1.2em);
     font-weight: 600;
 }
 
 #game-message {
-    margin-top: 10px;
+    margin-top: 0.75rem;
     font-weight: 600;
     color: var(--accent-pink);
+    min-height: 1.2em; /* Резервируем место, чтобы текст не прыгал */
 }
 
 #envelope {
     cursor: pointer;
     color: var(--secondary-pink);
-    margin: 20px 0;
+    margin: 1.25rem 0;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 #envelope:hover {
     transform: scale(1.15);
     color: var(--accent-pink);
 }
+/* Увеличим иконку конверта, т.к. она важный элемент */
+#envelope .fa-envelope {
+    font-size: clamp(3.5em, 10vw, 4.5em); /* Делаем иконку адаптивной */
+}
+
 
 #letter-text {
     text-align: left;
-    margin-bottom: 30px;
-    font-size: 1.1em;
-    white-space: pre-wrap;
+    margin-bottom: 1.875rem; /* 30px */
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem); /* Адаптивный размер */
+    white-space: pre-wrap; /* Сохраняем переносы строк из HTML */
+    line-height: 1.7; /* Улучшаем читаемость длинного текста */
+    word-break: break-word; /* Предотвращаем выход длинных слов за пределы блока */
 }
 
 .btn {
     display: inline-block;
-    padding: 12px 25px;
-    margin-top: 20px;
+    padding: clamp(10px, 2.8vw, 15px) clamp(20px, 5vw, 30px); /* Адаптивные отступы */
+    margin-top: 1.25rem; /* 20px */
     font-family: var(--font-main);
-    font-size: 1em;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem); /* Адаптивный размер шрифта */
     font-weight: 600;
     color: var(--white-color);
     background-color: var(--primary-pink);
     border: none;
-    border-radius: 25px;
+    border-radius: 50px; /* Делаем кнопку более "пилюльной" */
     cursor: pointer;
     text-decoration: none;
+    text-align: center;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .btn:hover {
     background-color: var(--secondary-pink);
-    transform: translateY(-3px);
+    transform: translateY(-3px) scale(1.03); /* Немного увеличим при ховере */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .btn:active {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 600px) {
+/* === Медиа-запросы === */
+
+@media (max-width: 768px) { /* Основная точка для планшетов и крупных телефонов */
+    body {
+        /* font-size: 15px; */ /* Базовый размер уже адаптивен через clamp или остается 16px */
+    }
+
+    #main-content {
+        padding-top: 2vh; /* Меньше отступ сверху на мобильных */
+        padding-bottom: 2vh;
+    }
+
     .content-box {
         width: 95%;
-        padding: 20px;
+        /* padding уже адаптивен через clamp */
     }
-    h2 {
-        font-size: 1.5em;
-    }
-    .font-dancing {
-        font-size: 1.8em;
-    }
-    #letter-text, #reasons-list li {
-        font-size: 1em;
-    }
+
+    /* h2, .font-dancing, #letter-text, #modal-content p, .btn font-size */
+    /* уже должны хорошо адаптироваться с clamp(). */
+    /* Если какой-то элемент все еще слишком большой/маленький, можно добавить специфичные стили сюда. */
+
     #game-area {
-        height: 350px;
+        /* aspect-ratio должен справиться. Если нет, можно задать max-height: */
+        /* max-height: 65vh; */
+        /* Или если не используется aspect-ratio: */
+        /* height: 350px; */ /* как было в твоем оригинальном коде */
     }
-    #catcher {
-        width: 60px;
+
+     /* Размеры #catcher и .falling-heart уже адаптивны с clamp() */
+}
+
+@media (max-width: 480px) { /* Для очень маленьких экранов */
+    body {
+        /* font-size: 14px; */ /* Можно еще уменьшить, если clamp не справляется */
     }
-    .falling-heart {
-        width: 28px;
-        height: 28px;
-        top: -32px;
+     #main-content {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .content-box {
+        /* padding: clamp(10px, 3vw, 15px); */ /* Еще меньше отступы */
+    }
+
+    #modal-content h2 {
+        font-size: clamp(1.2em, 4vw, 1.5em);
+    }
+    #modal-content p {
+        font-size: clamp(0.8rem, 2.2vw, 0.95rem);
+    }
+
+    #letter-text {
+        font-size: clamp(0.8rem, 2.2vw, 0.95rem);
+        line-height: 1.6;
+    }
+
+    #envelope .fa-envelope {
+        font-size: clamp(3em, 9vw, 4em);
+    }
+
+    .btn {
+         margin-top: 1rem;
     }
 }
