@@ -131,9 +131,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function moveCatcher(event) {
         if (!gameActive || gamePausedByVisibility || !gameArea || !catcher) return;
+
+        if (event.type === 'touchmove') {
+            event.preventDefault();
+        }
+
         const gameAreaRect = gameArea.getBoundingClientRect();
         const gameAreaWidth = gameAreaRect.width;
         const catcherWidth = catcher.offsetWidth;
+
         let xPositionInGameArea;
         if (event.type === 'mousemove') {
             xPositionInGameArea = event.clientX - gameAreaRect.left;
@@ -142,12 +148,16 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             return;
         }
+
         let newLeft = xPositionInGameArea - catcherWidth / 2;
+        
         const minLeft = 0;
         const maxLeft = gameAreaWidth - catcherWidth;
+
         newLeft = Math.max(minLeft, newLeft);
         newLeft = Math.min(maxLeft, newLeft);
-        if (maxLeft < minLeft) {
+
+        if (maxLeft < minLeft && minLeft === 0) { 
             newLeft = minLeft;
         }
         catcher.style.left = newLeft + 'px';
@@ -160,35 +170,55 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         console.log("Запуск игры...");
+
+        document.body.classList.add('no-scroll'); 
+
         showSection(gameSection);
+
         gameActive = true;
         gamePausedByVisibility = false;
+
         const goalDisplayElem = document.querySelector('#game-elements h2 .highlight');
         if(goalDisplayElem) goalDisplayElem.textContent = GOAL_SCORE;
+        
         currentScore = 0;
         if (scoreDisplay) scoreDisplay.textContent = currentScore;
         if (gameMessage) gameMessage.textContent = '';
+        
         hearts.forEach(heart => heart.remove());
         hearts = [];
-        centerCatcher();
+
+        centerCatcher(); 
+
         clearInterval(gameInterval);
         cancelAnimationFrame(animationFrameId);
+
         gameInterval = setInterval(createHeart, heartCreationInterval);
         animationFrameId = requestAnimationFrame(moveHearts);
-        gameArea.addEventListener('mousemove', moveCatcher);
-        gameArea.addEventListener('touchmove', moveCatcher, { passive: true });
+        
+        if (gameArea) {
+            gameArea.removeEventListener('touchmove', moveCatcher); 
+            gameArea.addEventListener('touchmove', moveCatcher, { passive: false }); 
+        }
+        
         startGameBtn.disabled = true;
     }
 
     function endGame(isWin) {
+        document.body.classList.remove('no-scroll'); 
+
         if (!gameActive) return;
+        
         console.log("Игра завершена. Победа:", isWin);
         gameActive = false;
-        pauseGame();
+        
+        pauseGame(); 
+
         if(gameArea) {
             gameArea.removeEventListener('mousemove', moveCatcher);
             gameArea.removeEventListener('touchmove', moveCatcher);
         }
+
         if (isWin) {
             if(gameMessage) gameMessage.textContent = 'Победа!';
             launchConfetti();
@@ -216,26 +246,23 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => confetti({ particleCount: 40, spread: 50, origin: { x: 0.8, y: 0.7 }, colors: ['#ffcad4', '#f4acb7', '#ffffff'] }), 500);
     }
 
-    if (startGameBtn) {
+       if (startGameBtn) {
         startGameBtn.addEventListener('click', () => {
             if (introModal) introModal.classList.add('hidden');
             if (modalBackdrop) modalBackdrop.classList.add('hidden');
             setTimeout(() => {
-                startGame();
+                startGame(); 
             }, 400);
         });
-    } else {
-        console.error("Кнопка старта игры не найдена!");
     }
-
-    if(envelope) {
+    
+     if(envelope) {
         envelope.addEventListener('click', () => {
+            document.body.classList.remove('no-scroll');
             showSection(letterSection);
             hideSection(envelopeSection);
             if (typeof AOS !== 'undefined') AOS.refresh();
         });
-    } else {
-        console.error("Элемент конверта не найден!");
     }
 
     function showSection(section) {
